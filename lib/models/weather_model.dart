@@ -21,7 +21,6 @@ class Weather {
       required this.icon});
 
   factory Weather.fromJson(Map<String, dynamic> json) {
-    print(json);
     return Weather(
       temp: json['main']['temp'].toDouble(),
       feelsLike: json['main']['feels_like'].toDouble(),

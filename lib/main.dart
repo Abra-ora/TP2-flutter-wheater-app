@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/bloc/weather_bloc.dart';
+import 'package:weather_app/bloc/weather_repo.dart';
 import 'package:weather_app/models/location_model.dart';
 import 'package:weather_app/views/weather_view.dart';
 
@@ -17,6 +20,7 @@ class MyApp extends StatelessWidget {
           city: "Montpellier", country: "France", lat: "43.6109", lon: "3.8772")
     ];
 
+    final WeatherBloc weatherBloc = WeatherBloc(WeatherRepo());
     return MaterialApp(
         title: 'Weather Forecast',
         theme: ThemeData(
@@ -24,6 +28,10 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         debugShowCheckedModeBanner: false,
-        home: CurrentWeatherPage(locations, context));
+        home: BlocProvider.value(
+          value: weatherBloc,
+          child: CurrentWeatherPage(locations, context),
+        )
+        );
   }
 }

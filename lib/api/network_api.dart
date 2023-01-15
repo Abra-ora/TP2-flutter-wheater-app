@@ -16,10 +16,7 @@ class Network {
         "https://api.openweathermap.org/data/2.5/forecast?q=$cityName&lang=$lang&units=$units&cnt=$cnt&appid=$appid";
 
     final response = await http.get(Uri.parse(finalUrl));
-    print("URL : ${Uri.encodeFull(finalUrl)}");
-
     if (response.statusCode == 200) {
-      print("weather data: ${response.body}}");
       return Weather.fromJson(json.decode(response.body));
     } else {
       throw Exception("Error getting $cityName weather forecast");
@@ -47,10 +44,7 @@ class Network {
         "https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&appid=$appid&units=$units&lang=$lang";
 
     final response = await http.get(Uri.parse(finalUrl));
-    print("URL : ${Uri.encodeFull(finalUrl)}");
-
     if (response.statusCode == 200) {
-      print("weather data: ${response.body}}");
       return Forecast.fromJson(jsonDecode(response.body));
     } else {
       throw Exception("Error getting {lat:$lat;lon:$lon} weather forecast");

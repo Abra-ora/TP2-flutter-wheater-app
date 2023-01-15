@@ -10,21 +10,24 @@ part 'weather_state.dart';
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherRepo weatherRepo;
 
-  WeatherBloc(this.weatherRepo) : super(WeatherInitial());
-
-  @override
-  Stream<WeatherState> mapEventToState(WeatherEvent event) async* {
-    if (event is FetchWeather) {
-      yield WeatherIsLoading();
-
+  WeatherBloc(this.weatherRepo) : super(WeatherInitial()) {
+    on<FetchWeatherEvent>((event, emit) async {
+      emit(WeatherIsLoading());
       try {
-        Weather weather = await weatherRepo.getWeather(event._city);
-        yield WeatherIsLoaded(weather);
+        final  weather = await weatherRepo.getWeather(event._city);
+        if (weather != null) {
+          emit(WeatherIsLoaded(weather));
+        } else {
+          emit(SearchDoesntExist());
+        }
       } catch (_) {
-        yield WeatherIsNotLoaded();
+        print("Error: $_");
+        emit(WeatherIsNotLoaded());
       }
-    } else if (event is ResetWeather) {
-      yield WeatherIsNotSearched();
-    }
+    });
+
+    on<ResetWeather>((event, emit) async {
+      emit(WeatherIsNotSearched());
+    });
   }
 }

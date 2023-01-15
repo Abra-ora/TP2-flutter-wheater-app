@@ -26,3 +26,5 @@ class WeatherIsLoaded extends WeatherState {
 }
 
 class WeatherIsNotLoaded extends WeatherState {}
+
+class SearchDoesntExist extends WeatherState {}
